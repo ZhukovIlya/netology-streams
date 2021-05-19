@@ -1,4 +1,5 @@
 ru/netology/Main.java
  ru.netology.Main
+ ru.netology.Main$1
 ru/netology/MyThread.java
- ru.netology.MyThread
+ ru.netology.MyCallable

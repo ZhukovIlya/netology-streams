@@ -1,24 +1,22 @@
 package ru.netology;
 
-class MyThread extends Thread {
 
+import java.util.concurrent.Callable;
 
-
-    public MyThread(ThreadGroup group, String name) {
-        super(group, name);
+class MyCallable implements Callable<Integer> {
+    private int number;
+    public MyCallable(int number) {
+        this.number = number;
     }
 
     @Override
-    public void run() {
-        try {
-            while(!isInterrupted()) {
-                Thread.sleep(2500);
-                System.out.println(getName() + " Всем привет!");
-            }
-        } catch (InterruptedException err) {
-
-        } finally{
-            System.out.printf("%s завершен\n", getName());
+    public Integer call() throws Exception {
+        int i = 0;
+        while (i < number) {
+            Thread.sleep(2500);
+            System.out.println(Thread.currentThread().getName() + " Всем привет");
+            i++;
         }
+        return i;
     }
 }

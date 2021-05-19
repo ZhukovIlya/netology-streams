@@ -1,30 +1,33 @@
 package ru.netology;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
+
 public class Main {
-    public static void main(String[] args) {
 
-        ThreadGroup group = new ThreadGroup("group");
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
+
+        List<Callable<Integer>> myCallables = new ArrayList<>() {{
+            add(new MyCallable(1));
+            add(new MyCallable(2));
+            add(new MyCallable(3));
+            add(new MyCallable(4));
+        }};
+
+        ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
 
-        MyThread thread1 = new MyThread(group, "Поток 1");
-        MyThread thread2 = new MyThread(group, "Поток 2");
-        MyThread thread3 = new MyThread(group, "Поток 3");
-        MyThread thread4 = new MyThread(group, "Поток 4");
-
-
-        thread1.start();
-        thread2.start();
-        thread3.start();
-        thread4.start();
-
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException err) {
-
+        final List<Future<Integer>> tasks = threadPool.invokeAll(myCallables);
+        for (Future<Integer> task : tasks) {
+            System.out.println("Результат задачи: " + task.get());
         }
 
 
-        group.interrupt();
+        final Integer taskAny = threadPool.invokeAny(myCallables);
+        System.out.println("Результат задачи: " + taskAny);
+
+        threadPool.shutdown();
 
     }
 }
