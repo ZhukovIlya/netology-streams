@@ -1,0 +1,4 @@
+ru/netology/Main.java
+ ru.netology.Main
+ru/netology/MyThread.java
+ ru.netology.MyThread
